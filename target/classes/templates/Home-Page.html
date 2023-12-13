@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+              * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f8f8;
+    padding: 3px 20px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    font-size: 24px;
+    text-decoration: none;
+    color: #333;
+    margin-right: 10px;
+}
+
+.menu-container {
+            position: relative;
+            margin-right: 1%;
+        }
+
+        .menu {
+            display: none;
+            position: absolute;
+            top: 105%;
+            left :25%;
+            background-color: #f1f0f0;
+            border: 1px solid #dad5d5;
+            border-radius: 10%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            flex-direction: column;
+        }
+
+.menu-button,
+.About-button,
+.login-button,
+.signup-button {
+    background-color: #e0e0e0;
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 0 8px;
+    padding: 10px 20px;
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu ul li {
+    display: block;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+  .menu ul li:hover {
+            background-color: #fad5ab;
+        }
+
+.search-form {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.search-input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex-grow: 1;
+    margin-left: 10px;
+    min-width: 500px;
+}
+
+
+        #my-image {
+            display: block;
+            margin: auto;
+            width: 100vw;
+        }
+        .row {
+            display: flex;
+        }
+
+        .column {
+            flex: 1;
+            padding: 16px;
+        }
+
+        .StackoverFlow, .ForTeams {
+              background: #f9f9f9;
+              text-align: center;
+              margin: 16px;
+              border-radius: 8px;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #column-image,#columns-image{
+              width: 100%;
+              height: auto;
+              max-width: 520px;
+              max-height: 346px;
+        }
+
+        .your-heading-class {
+              margin-top: 16px;
+        }
+
+        .your-button-class {
+              display: block;
+              margin: 16px auto;
+              padding: 8px 16px;
+              background-color: #0077cc;
+              color: #ffffff;
+              text-decoration: none;
+              border-radius: 4px;
+              font-size: 16px;
+        }
+
+        .your-button-class:hover {
+              background-color: #005a8c;
+        }
+
+        .your-paragraph-class {
+              margin-bottom: 16px;
+         }
+
+         .testimonial-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .testimonial-content {
+            flex-basis: calc(50% - 30px);
+            margin: 10px auto;
+            padding: 8px 150px;
+            margin-bottom: 0px;
+            box-sizing: border-box;
+        }
+        .site-footer js-footer{
+            background-color: rgb(108, 108, 112);
+        }
+         #footer {
+        background-color: grey;
+        padding:5px 20px;
+        width: 100%;
+
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+    }
+
+    .site-footer--container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .site-footer--row {
+        display: flex;
+        align-items: center;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+        margin-right: 20px;
+        text-decoration: none;
+        color: #333;
+    }
+
+    a {
+        margin-right: 20px;
+        text-decoration: none;
+        color: #333;
+    }
+
+    p {
+        margin-bottom: 10px;
+    }
+
+
+    #showContributors {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    #showContributors:hover {
+        color: #ff5733;
+    }
+
+    #userDetails p {
+        margin: 5px 0;
+    }
+
+
+
+    </style>
+</head>
+<body>
+<div class="header-container">
+
+    <div class="menu-container">
+        <button class="menu-button" onclick="toggleMenu()" style="background-color: #f8f8f8; background-size: cover;">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30px" height="30px" viewBox="0 0 48 48">
+                <path d="M 5.5 9 A 1.50015 1.50015 0 1 0 5.5 12 L 42.5 12 A 1.50015 1.50015 0 1 0 42.5 9 L 5.5 9 z M 5.5 22.5 A 1.50015 1.50015 0 1 0 5.5 25.5 L 42.5 25.5 A 1.50015 1.50015 0 1 0 42.5 22.5 L 5.5 22.5 z M 5.5 36 A 1.50015 1.50015 0 1 0 5.5 39 L 42.5 39 A 1.50015 1.50015 0 1 0 42.5 36 L 5.5 36 z"></path>
+            </svg>
+        </button>
+        <div class="menu" id="menu">
+            <ul>
+                <li onclick="redirectToOption('/questions')">Questions</li>
+                <li onclick="redirectToOption('/tags')">Tags</li>
+                <li onclick="redirectToOption('/users')">Users</li>
+            </ul>
+        </div>
+    </div>
+    <a th:href="@{/}" class="logo" style="font-family:sans-serif;">
+        <svg aria-hidden="true" class="svg-icon iconLogoGlyphMd native native" width="28" height="28"
+             viewBox="0 0 32 37">
+            <path d="M26 33v-9h4v13H0V24h4v9h22Z" fill="#BCBBBB"></path>
+            <path d="m21.5 0-2.7 2 9.9 13.3 2.7-2L21.5 0ZM26 18.4 13.3 7.8l2.1-2.5 12.7 10.6-2.1 2.5ZM9.1 15.2l15 7 1.4-3-15-7-1.4 3Zm14 10.79.68-2.95-16.1-3.35L7 23l16.1 2.99ZM23 30H7v-3h16v3Z"
+                  fill="#F48024"></path>
+        </svg>
+        Stack<strong style="font-family:sans-serif;">overflow</strong>
+    </a>
+
+    <span sec:authorize="isAuthenticated()">
+                <form th:action="@{'/answers/' + ${@userInfoService.currentUser().id}}">
+                    <button type="submit" class="About-button" style="background-color: #f8f8f8; position: relative;">
+                        <img src="/inbox.png" alt="inbox" width="32px" height="32px">
+                        <span th:if="${@userInfoService.answers}">
+                        <span style="position: absolute; color: white; size: 8px; width: 13px; height: 13px; background-color: red; border-radius: 50%;" th:text="${@userInfoService.answerCount()}"></span>
+                        </span>
+                    </button>
+                </form>
+            </span>
+    </span>
+    </span>
+
+    <form action="/search" method="get" class="search-form">
+        <input
+                type="text"
+                th:value="${q}"
+                name="q"
+                class="search-input"
+                placeholder="Search..."
+        />
+    </form>
+    <span th:if="${not #authorization.expression('isAuthenticated()')}">
+        <a th:href="@{/login}" class="login-button">Login</a>
+        <a th:href="@{/register}" class="signup-button">Sign Up</a>
+    </span>
+    <span sec:authorize="isAuthenticated()">
+        <a th:href="@{'/users/' + ${@userInfoService.currentUser().id}}" class="login-button" style="background-color: #f8f8f8">
+            <img src="/profile.png" alt="Profile Icon" width="32px" height="32px"/></a>
+        <a th:href="@{/logout}" class="login-button" style="background-color: #f8f8f8">
+            <img src="/logout.png" alt="Logout Icon" width="28px" height="28px"/></a>
+    </span>
+</div>
+
+<div>
+    <br>
+    <img id="my-image" src="/body.gif" width="950" alt="image is loading">
+    <br>
+</div>
+
+<section class="row">
+    <div class="column StackoverFlow">
+        <img id="column-image" width="520" height="346"
+             src="https://cdn.sstatic.net/Img/home/illo-public.svg?v=14bd5a506009" class=""
+             alt="Illustration of Stack Overflow">
+        <h2 class="your-heading-class">
+            A public platform building the definitive collection of coding questions & answers
+        </h2>
+        <p class="your-paragraph-class">A community-based space to find and contribute answers to technical challenges,
+            and one of the most popular websites in the world.</p>
+        <a th:href="@{/login}" class="your-button-class">Join the community</a>
+        <p class="your-paragraph-class">or <a class="" th:href="@{/questions}">search content</a></p>
+    </div>
+
+    <div class="column ForTeams">
+        <img id="columns-image" width="520" height="346"
+             src="https://cdn.sstatic.net/Img/home/illo-teams.svg?v=7e543f14fcc0" class=""
+             alt="Illustration of Stack Overflow for Teams">
+        <h2 class="">
+            A private collaboration & knowledge sharing SaaS platform for companies
+        </h2>
+        <p class="">A web-based platform to increase productivity, decrease cycle times, accelerate time to market, and
+            protect institutional knowledge.</p>
+        <a href="https://stackoverflow.co/teams/" class="">For small teams
+            <svg aria-hidden="true" class="svg-icon iconPeople" width="18" height="18" viewBox="0 0 18 18">
+                <path d="M17 14c0 .44-.45 1-1 1H9a1 1 0 0 1-1-1H2c-.54 0-1-.56-1-1 0-2.63 3-4 3-4s.23-.4 0-1c-.84-.62-1.06-.59-1-3 .06-2.42 1.37-3 2.5-3s2.44.58 2.5 3c.06 2.41-.16 2.38-1 3-.23.59 0 1 0 1s1.55.71 2.42 2.09c.78-.72 1.58-1.1 1.58-1.1s.23-.4 0-1c-.84-.61-1.06-.58-1-3 .06-2.41 1.37-3 2.5-3s2.44.59 2.5 3c.05 2.42-.16 2.39-1 3-.23.6 0 1 0 1s3 1.38 3 4Z"></path>
+            </svg>
+        </a>
+    </div>
+</section>
+
+<script th:inline="javascript">
+    function redirectToMainPage() {
+        window.location.href = "answer.html";
+    }
+
+    function redirectToOption(option) {
+        window.location.href = option;
+    }
+
+    function toggleMenu() {
+        var menu = document.getElementById("menu");
+        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    }
+</script>
+
+<section class="testimonial-section">
+    <div class="testimonial-content">
+        <svg aria-hidden="true" class="" width="48" height="48" viewBox="0 0 48 48">
+            <path d="M5.01 14.71a5.64 5.64 0 0 1 5.62-5.65h8.75c3.1 0 5.62 2.53 5.62 5.65v19.8l-4.94 8.01a1 1 0 0 1-.85.48h-4.03a1 1 0 0 1-.86-1.5l4.04-6.99h-7.73a5.64 5.64 0 0 1-5.62-5.65V14.7Zm22.99 0a5.61 5.61 0 0 1 5.6-5.65h7.72c3.1 0 5.63 2.53 5.63 5.65v19.8L43 42.45a1 1 0 0 1-.9.55h-4.02a1 1 0 0 1-.88-1.47l3.77-7.02h-7.38A5.61 5.61 0 0 1 28 28.86V14.7Z" opacity=".2"></path><path d="M1 11.66A6.64 6.64 0 0 1 7.62 5h8.79a6.64 6.64 0 0 1 6.62 6.66v19.29a2.8 2.8 0 0 1-.42 1.47l-4.47 7.25A2.8 2.8 0 0 1 15.75 41h-2.09a2.8 2.8 0 0 1-2.39-4.27l1.54-2.5a.8.8 0 0 0-.68-1.23h-4.5c-1.9 0-3.57-.94-4.73-2.27A7.59 7.59 0 0 1 1 25.8V11.66ZM7.62 7A4.64 4.64 0 0 0 3 11.66V25.8c0 1.3.53 2.62 1.4 3.61A4.34 4.34 0 0 0 7.62 31h4.5a2.8 2.8 0 0 1 2.4 4.27l-1.54 2.5a.8.8 0 0 0 .68 1.23h2.1a.8.8 0 0 0 .68-.38l4.47-7.25a.8.8 0 0 0 .12-.42v-19.3A4.64 4.64 0 0 0 16.41 7H7.62ZM24 11.66A6.64 6.64 0 0 1 30.63 5h7.75A6.64 6.64 0 0 1 45 11.66V31.5c0 .5-.14 1-.4 1.44l-3.96 6.69A2.8 2.8 0 0 1 38.22 41h-2.07a2.8 2.8 0 0 1-2.39-4.27l1.54-2.5a.8.8 0 0 0-.68-1.23h-4c-1.9 0-3.55-.94-4.72-2.27A7.59 7.59 0 0 1 24 25.8V11.66ZM30.63 7A4.64 4.64 0 0 0 26 11.66V25.8c0 1.3.53 2.62 1.4 3.61A4.34 4.34 0 0 0 30.63 31h3.99A2.8 2.8 0 0 1 37 35.27l-1.54 2.5a.8.8 0 0 0 .68 1.23h2.07a.8.8 0 0 0 .7-.4l3.97-6.68a.8.8 0 0 0 .11-.42V11.66A4.64 4.64 0 0 0 38.38 7h-7.76Z"></path></svg>
+        <p class="testimonial-quote">
+            Stack Overflow for Teams has been a resource for our entire company...
+        </p>
+        <div class="testimonial-author">
+            <strong>Director of Product Management</strong><br>
+            Microsoft
+        </div>
+    </div>
+    <div class="testimonial-content">
+        <svg aria-hidden="true" class="" width="48" height="48" viewBox="0 0 48 48">
+            <path d="M5.01 14.71a5.64 5.64 0 0 1 5.62-5.65h8.75c3.1 0 5.62 2.53 5.62 5.65v19.8l-4.94 8.01a1 1 0 0 1-.85.48h-4.03a1 1 0 0 1-.86-1.5l4.04-6.99h-7.73a5.64 5.64 0 0 1-5.62-5.65V14.7Zm22.99 0a5.61 5.61 0 0 1 5.6-5.65h7.72c3.1 0 5.63 2.53 5.63 5.65v19.8L43 42.45a1 1 0 0 1-.9.55h-4.02a1 1 0 0 1-.88-1.47l3.77-7.02h-7.38A5.61 5.61 0 0 1 28 28.86V14.7Z" opacity=".2"></path><path d="M1 11.66A6.64 6.64 0 0 1 7.62 5h8.79a6.64 6.64 0 0 1 6.62 6.66v19.29a2.8 2.8 0 0 1-.42 1.47l-4.47 7.25A2.8 2.8 0 0 1 15.75 41h-2.09a2.8 2.8 0 0 1-2.39-4.27l1.54-2.5a.8.8 0 0 0-.68-1.23h-4.5c-1.9 0-3.57-.94-4.73-2.27A7.59 7.59 0 0 1 1 25.8V11.66ZM7.62 7A4.64 4.64 0 0 0 3 11.66V25.8c0 1.3.53 2.62 1.4 3.61A4.34 4.34 0 0 0 7.62 31h4.5a2.8 2.8 0 0 1 2.4 4.27l-1.54 2.5a.8.8 0 0 0 .68 1.23h2.1a.8.8 0 0 0 .68-.38l4.47-7.25a.8.8 0 0 0 .12-.42v-19.3A4.64 4.64 0 0 0 16.41 7H7.62ZM24 11.66A6.64 6.64 0 0 1 30.63 5h7.75A6.64 6.64 0 0 1 45 11.66V31.5c0 .5-.14 1-.4 1.44l-3.96 6.69A2.8 2.8 0 0 1 38.22 41h-2.07a2.8 2.8 0 0 1-2.39-4.27l1.54-2.5a.8.8 0 0 0-.68-1.23h-4c-1.9 0-3.55-.94-4.72-2.27A7.59 7.59 0 0 1 24 25.8V11.66ZM30.63 7A4.64 4.64 0 0 0 26 11.66V25.8c0 1.3.53 2.62 1.4 3.61A4.34 4.34 0 0 0 30.63 31h3.99A2.8 2.8 0 0 1 37 35.27l-1.54 2.5a.8.8 0 0 0 .68 1.23h2.07a.8.8 0 0 0 .7-.4l3.97-6.68a.8.8 0 0 0 .11-.42V11.66A4.64 4.64 0 0 0 38.38 7h-7.76Z"></path></svg>
+        <p class="testimonial-quote">
+            Engineers should help solve the hardest questions, the unknowns...
+        </p>
+        <div class="testimonial-author">
+            <strong>Director of Engineering</strong><br>
+            Elastic Cloud
+        </div>
+    </div>
+    <div class="testimonial-content">
+        <svg aria-hidden="true" class="" width="48" height="48" viewBox="0 0 48 48">
+            <path d="M5.01 14.71a5.64 5.64 0 0 1 5.62-5.65h8.75c3.1 0 5.62 2.53 5.62 5.65v19.8l-4.94 8.01a1 1 0 0 1-.85.48h-4.03a1 1 0 0 1-.86-1.5l4.04-6.99h-7.73a5.64 5.64 0 0 1-5.62-5.65V14.7Zm22.99 0a5.61 5.61 0 0 1 5.6-5.65h7.72c3.1 0 5.63 2.53 5.63 5.65v19.8L43 42.45a1 1 0 0 1-.9.55h-4.02a1 1 0 0 1-.88-1.47l3.77-7.02h-7.38A5.61 5.61 0 0 1 28 28.86V14.7Z" opacity=".2"></path><path d="M1 11.66A6.64 6.64 0 0 1 7.62 5h8.79a6.64 6.64 0 0 1 6.62 6.66v19.29a2.8 2.8 0 0 1-.42 1.47l-4.47 7.25A2.8 2.8 0 0 1 15.75 41h-2.09a2.8 2.8 0 0 1-2.39-4.27l1.54-2.5a.8.8 0 0 0-.68-1.23h-4.5c-1.9 0-3.57-.94-4.73-2.27A7.59 7.59 0 0 1 1 25.8V11.66ZM7.62 7A4.64 4.64 0 0 0 3 11.66V25.8c0 1.3.53 2.62 1.4 3.61A4.34 4.34 0 0 0 7.62 31h4.5a2.8 2.8 0 0 1 2.4 4.27l-1.54 2.5a.8.8 0 0 0 .68 1.23h2.1a.8.8 0 0 0 .68-.38l4.47-7.25a.8.8 0 0 0 .12-.42v-19.3A4.64 4.64 0 0 0 16.41 7H7.62ZM24 11.66A6.64 6.64 0 0 1 30.63 5h7.75A6.64 6.64 0 0 1 45 11.66V31.5c0 .5-.14 1-.4 1.44l-3.96 6.69A2.8 2.8 0 0 1 38.22 41h-2.07a2.8 2.8 0 0 1-2.39-4.27l1.54-2.5a.8.8 0 0 0-.68-1.23h-4c-1.9 0-3.55-.94-4.72-2.27A7.59 7.59 0 0 1 24 25.8V11.66ZM30.63 7A4.64 4.64 0 0 0 26 11.66V25.8c0 1.3.53 2.62 1.4 3.61A4.34 4.34 0 0 0 30.63 31h3.99A2.8 2.8 0 0 1 37 35.27l-1.54 2.5a.8.8 0 0 0 .68 1.23h2.07a.8.8 0 0 0 .7-.4l3.97-6.68a.8.8 0 0 0 .11-.42V11.66A4.64 4.64 0 0 0 38.38 7h-7.76Z"></path></svg>
+
+        <p class="testimonial-quote">
+            As we started to use [Stack Overflow for Teams] and saw how nice...
+        </p>
+        <div class="testimonial-author">
+            <strong>Engineering</strong><br>
+            Expensify
+        </div>
+    </div>
+    <div class="testimonial-content">
+        <svg aria-hidden="true" class="" width="48" height="48" viewBox="0 0 48 48">
+            <path d="M5.01 14.71a5.64 5.64 0 0 1 5.62-5.65h8.75c3.1 0 5.62 2.53 5.62 5.65v19.8l-4.94 8.01a1 1 0 0 1-.85.48h-4.03a1 1 0 0 1-.86-1.5l4.04-6.99h-7.73a5.64 5.64 0 0 1-5.62-5.65V14.7Zm22.99 0a5.61 5.61 0 0 1 5.6-5.65h7.72c3.1 0 5.63 2.53 5.63 5.65v19.8L43 42.45a1 1 0 0 1-.9.55h-4.02a1 1 0 0 1-.88-1.47l3.77-7.02h-7.38A5.61 5.61 0 0 1 28 28.86V14.7Z" opacity=".2"></path><path d="M1 11.66A6.64 6.64 0 0 1 7.62 5h8.79a6.64 6.64 0 0 1 6.62 6.66v19.29a2.8 2.8 0 0 1-.42 1.47l-4.47 7.25A2.8 2.8 0 0 1 15.75 41h-2.09a2.8 2.8 0 0 1-2.39-4.27l1.54-2.5a.8.8 0 0 0-.68-1.23h-4.5c-1.9 0-3.57-.94-4.73-2.27A7.59 7.59 0 0 1 1 25.8V11.66ZM7.62 7A4.64 4.64 0 0 0 3 11.66V25.8c0 1.3.53 2.62 1.4 3.61A4.34 4.34 0 0 0 7.62 31h4.5a2.8 2.8 0 0 1 2.4 4.27l-1.54 2.5a.8.8 0 0 0 .68 1.23h2.1a.8.8 0 0 0 .68-.38l4.47-7.25a.8.8 0 0 0 .12-.42v-19.3A4.64 4.64 0 0 0 16.41 7H7.62ZM24 11.66A6.64 6.64 0 0 1 30.63 5h7.75A6.64 6.64 0 0 1 45 11.66V31.5c0 .5-.14 1-.4 1.44l-3.96 6.69A2.8 2.8 0 0 1 38.22 41h-2.07a2.8 2.8 0 0 1-2.39-4.27l1.54-2.5a.8.8 0 0 0-.68-1.23h-4c-1.9 0-3.55-.94-4.72-2.27A7.59 7.59 0 0 1 24 25.8V11.66ZM30.63 7A4.64 4.64 0 0 0 26 11.66V25.8c0 1.3.53 2.62 1.4 3.61A4.34 4.34 0 0 0 30.63 31h3.99A2.8 2.8 0 0 1 37 35.27l-1.54 2.5a.8.8 0 0 0 .68 1.23h2.07a.8.8 0 0 0 .7-.4l3.97-6.68a.8.8 0 0 0 .11-.42V11.66A4.64 4.64 0 0 0 38.38 7h-7.76Z"></path></svg>
+
+        <p class="testimonial-quote">
+            What we love about Stack Overflow for Teams is that it’s a very dynamic tool...
+        </p>
+        <div class="testimonial-author">
+            <strong>Software Engineer</strong><br>
+            Box
+        </div>
+    </div>
+</section>
+
+<footer id="footer" class="site-footer js-footer" role="contentinfo">
+    <div class="site-footer--container">
+        <div class="site-footer--row">
+            <a th:href="@{/}" class="logo">StackOverflow</a>
+            <a th:href="@{/questions}">Questions</a>
+            <a th:href="@{mailto:kunalraj0106@gmail.com}">Contact Us</a>
+        </div>
+        <div class="site-footer--row">
+            <p>This is StackOverflow clone project contributed by users <a href="#" id="showContributors">(see contributors)</a></p>
+            <div id="userDetails" style="display:none;">
+                <p>Kunal Raj - kunalraj0106@gmail.com</p>
+                <p>Murthy - murthyk7592@gmail.com</p>
+                <p>Jegan - jeganpandian001@gmail.com</p>
+            </div>
+        </div>
+    </div>
+</footer>
+<script>
+    document.getElementById('showContributors').addEventListener('click', function() {
+       document.getElementById('userDetails').style.display = 'block';
+    });
+</script>
+<script>
+      function toggleMenu() {
+        var menu = document.getElementById("menu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+      }
+
+      function redirectToOption(option) {
+        window.location.href = option;
+      }
+</script>
+</body>
+
+
+
+</body>
+</html>
