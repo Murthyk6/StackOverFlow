@@ -387,6 +387,7 @@
                 </span>
                 <div th:if="${user.username == #authentication.principal.username or #authorization.expression('hasRole(''ADMIN'')')}">
                     <form action="#" th:action="@{'/question/delete/' + ${question.id}}" method="post">
+                        <input type="hidden" th:attr="name='_method', value='DELETE'" />
                         <button type="submit">Delete</button>
                     </form>
                 </div>

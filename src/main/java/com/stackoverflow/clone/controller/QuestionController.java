@@ -144,7 +144,7 @@ public class QuestionController {
         return "question/edit-question";
     }
 
-    @PostMapping("/question/delete/{deleteId}")
+    @DeleteMapping("/question/delete/{deleteId}")
     public String delete(@PathVariable("deleteId") Long deleteId) {
         questionService.deleteById(deleteId);
         return "redirect:/questions";
